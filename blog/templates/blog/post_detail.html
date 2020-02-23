@@ -1,0 +1,46 @@
+{% extends 'blog/base.html' %}
+
+{% block header %}
+<div class="post-heading">
+  <h1>{{ post.title }}</h1>
+  {% if post.published_date %}
+    <span class="meta">{{ post.published_date }}</span>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block content %}
+{% if not post.published_date %}
+  <a class="btn btn-warning" href="{% url 'post_publish' pk=post.pk %}" role="button">Publish</a>
+{% endif %}
+
+{% if user.is_authenticated %}
+  <a class="btn btn-success" href="{% url 'post_edit' pk=post.pk %}" role="button">Edit</a>
+  <a class="btn btn-danger" href="{% url 'post_remove' pk=post.pk %}" role="button">Delete</a>
+{% endif %}
+
+<p>
+  {{ post.text|linebreaksbr }}
+</p>
+
+<hr>
+<p>
+  <a class="btn btn-success" href="{% url 'post_comment' pk=post.pk %}" role="button">Add comment</a>
+</p>
+{% for comment in post.comments.all %}
+  {% if not comment.approved_comment %}
+  <p>
+    <a class="btn btn-danger" href="{% url 'comment_remove' pk=comment.pk %}" role="button">Remove</a>
+    <a class="btn btn-primary" href="{% url 'comment_approve' pk=comment.pk %}" role="button">Approve</a>
+  </p>
+  {% endif %}
+
+  <p class="comment-meta">{{ comment.created_date }}</p>
+  <strong>{{ comment.author }}</strong>
+  <p>{{ comment.text|linebreaks }}</p>
+
+  {% empty %}
+  <p>まだコメントはありません。</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+
+{% block header %}
+<div class="site-heading">
+  <h1>Django Startup</h1>
+  <span class="subheading">This is your first step!</span>
+</div>
+{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+  <div class="post-preview">
+    <a href="{% url 'post_detail' pk=post.pk %}">
+      <h2 class="post-title">
+        {{ post.title }}
+      </h2>
+    </a>
+    <p class="post-meta">{{ post.published_date }}</p>
+    <p>{{ post.text|linebreaksbr|truncatechars:100 }}</p>
+    <a href="{% url 'post_detail' pk=post.pk %}">
+      <p class="post-comment">Comments: {{ post.approved_comments.count }}</p>
+    </a>
+  </div>
+  <hr>
+  {% endfor %}
+
+  <!-- Pager -->
+  <div class="clearfix">
+    <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+  </div>
+{% endblock %}

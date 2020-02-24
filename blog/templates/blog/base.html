@@ -40,11 +40,14 @@
             <a class="nav-link" href="{% url 'post_draft_list' %}">Draft</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+            <a class="nav-link" href="{% url 'account_logout' %}">Log out</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
+            <a class="nav-link" href="{% url 'account_signup' %}">Sign up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'account_login' %}">Login</a>
           </li>
           {% endif %}
 

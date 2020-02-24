@@ -23,6 +23,7 @@ def post_new(request):
     form = PostForm(request.POST)
     if form.is_valid():
       post = form.save(commit=False)
+      post.image = request.FILES['image']
       post.author = request.user
       # post.published_date = timezone.now()
       post.save()
@@ -38,6 +39,7 @@ def post_edit(request, pk):
     form = PostForm(request.POST, instance=post)
     if form.is_valid():
       post = form.save(commit=False)
+      post.image = request.FILES['image']
       post.author = request.user
       # post.published_date = timezone.now()
       post.save()

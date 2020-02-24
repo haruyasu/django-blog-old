@@ -19,6 +19,14 @@
   <a class="btn btn-danger" href="{% url 'post_remove' pk=post.pk %}" role="button">Delete</a>
 {% endif %}
 
+{% if post.image %}
+<style>
+  header.masthead {
+    background-image: url('/{{ post.image.url }}') !important;
+  }
+</style>
+{% endif %}
+
 <p>
   {{ post.text|linebreaksbr }}
 </p>

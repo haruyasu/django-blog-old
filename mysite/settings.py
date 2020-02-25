@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'allauth', 
     'allauth.account',
     'allauth.socialaccount',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -139,6 +141,14 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 IMAGE_ROOT = os.path.join(BASE_DIR, 'images')
 IMAGE_URL = '/images/'
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dss6ah7pd',
+    'API_KEY': '652154181229651',
+    'API_SECRET': 'w0GMP9XLZwRAaj_XgUv_d1F2was'
+}
 
 django_heroku.settings(locals())
 

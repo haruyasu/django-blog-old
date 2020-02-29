@@ -369,3 +369,32 @@ footer .copyright {
 .login-form {
   width: 300px;
 }
+
+.pagination > li > a
+{
+    background-color: white;
+    color: #0085A1;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #0085A1;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: #0085A1 !important;
+    border: solid 1px #0085A1 !important;
+}
+
+.pagination > .active > a:hover
+{
+    background-color: #0085A1 !important;
+    border: solid 1px #0085A1 !important;
+}

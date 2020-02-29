@@ -15,6 +15,7 @@ class AboutView(TemplateView):
 class PostListView(ListView):
   model = Post
   template_name = "blog/post_list.html"
+  paginate_by = 3
 
   def get_queryset(self):
     return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')

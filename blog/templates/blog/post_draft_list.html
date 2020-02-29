@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  {% for post in posts %}
+  {% for post in post_list %}
   <div class="post-preview">
     <a href="{% url 'post_detail' pk=post.pk %}">
       <h2 class="post-title">

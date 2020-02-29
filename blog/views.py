@@ -1,58 +1,55 @@
-from django.shortcuts import render
 from django.utils import timezone
-from .models import Post, Comment
-from django.shortcuts import render, get_object_or_404
-from .forms import PostForm, CommentForm
-from django.shortcuts import redirect
+from blog.models import Post, Comment
+from django.shortcuts import render, redirect, get_object_or_404
+from blog.forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView)
 
-def about(request):
-  return render(request, 'page/about.html')
 
-def post_list(request):
-  posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-  return render(request, 'blog/post_list.html', {'posts': posts})
+class AboutView(TemplateView):
+  template_name = 'page/about.html'
 
-def post_detail(request, pk):
-  post = get_object_or_404(Post, pk=pk)
-  return render(request, 'blog/post_detail.html', {'post': post})
 
-@login_required
-def post_new(request):
-  if request.method == "POST":
-    form = PostForm(request.POST)
-    if form.is_valid():
-      post = form.save(commit=False)
-      post.image = request.FILES['image']
-      post.author = request.user
-      # post.published_date = timezone.now()
-      post.save()
-      return redirect('post_detail', pk=post.pk)
-  else:
-    form = PostForm()
-  return render(request, 'blog/post_edit.html', {'form': form})
+class PostListView(ListView):
+  model = Post
 
-@login_required
-def post_edit(request, pk):
-  post = get_object_or_404(Post, pk=pk)
-  if request.method == "POST":
-    form = PostForm(request.POST, instance=post)
-    if form.is_valid():
-      post = form.save(commit=False)
-      post.image = request.FILES['image']
-      post.author = request.user
-      # post.published_date = timezone.now()
-      post.save()
-      return redirect('post_detail', pk=post.pk)
-  else:
-    form = PostForm(instance=post)
-  return render(request, 'blog/post_edit.html', {'form': form})
+  def get_queryset(self):
+    return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
 
-@login_required
-def post_draft_list(request):
-  posts = Post.objects.filter(
-      published_date__isnull=True).order_by('created_date')
-  return render(request, 'blog/post_draft_list.html', {'posts': posts})
+
+class PostDetailView(DetailView):
+  model = Post
+
+
+class CreatePostView(LoginRequiredMixin, CreateView):
+  login_url = '/login/'
+  redirect_field_name = 'blog/post_detail.html'
+  form_class = PostForm
+  model = Post
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+  login_url = '/login/'
+  redirect_field_name = 'blog/post_detail.html'
+  form_class = PostForm
+  model = Post
+
+
+class DraftListView(LoginRequiredMixin, ListView):
+  login_url = '/login/'
+  redirect_field_name = 'blog/post_draft_list.html'
+  model = Post
+
+  def get_queryset(self):
+    return Post.objects.filter(published_date__isnull=True).order_by('created_date')
+
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+  model = Post
+  success_url = reverse_lazy('post_list')
+
 
 @login_required
 def post_publish(request, pk):
@@ -61,11 +58,6 @@ def post_publish(request, pk):
   return redirect('post_detail', pk=pk)
 
 @login_required
-def post_remove(request, pk):
-  post = get_object_or_404(Post, pk=pk)
-  post.delete()
-  return redirect('post_list')
-
 def post_comment(request, pk):
   post = get_object_or_404(Post, pk=pk)
   if request.method == "POST":

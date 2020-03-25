@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="col-12">
   <div class="row justify-content-center">
     <p>アカウントをまだお持ちでなければ、こちらから<a href="{% url 'account_signup' %}">ユーザー登録</a>して下さい。</p>
     <form method="post" action="{% url 'account_login' %}">
@@ -23,4 +24,5 @@
         </div>
     </form>
   </div>
+</div>
 {% endblock %}

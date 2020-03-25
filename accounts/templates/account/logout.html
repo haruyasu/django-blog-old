@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="col-12">
   <div class="row justify-content-center">
     <form method="post" action="{% url 'account_logout' %}">
       {% csrf_token %}
@@ -21,4 +22,5 @@
       </div>
     </form>
   </div>
+</div>
 {% endblock %}

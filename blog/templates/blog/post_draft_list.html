@@ -7,16 +7,18 @@
 {% endblock %}
 
 {% block content %}
+<div class="col-12">
   {% for post in post_list %}
-  <div class="post-preview">
-    <a href="{% url 'post_detail' pk=post.pk %}">
-      <h2 class="post-title">
-        {{ post.title }}
-      </h2>
-    </a>
-    <p class="post-meta">{{ post.created_date }}</p>
-    <p>{{ post.text|truncatechars:200 }}</p>
-  </div>
-  <hr>
+    <div class="post-preview">
+      <a href="{% url 'post_detail' pk=post.pk %}">
+        <h2 class="post-title">
+          {{ post.title }}
+        </h2>
+      </a>
+      <p class="post-meta">{{ post.created_date }}</p>
+      <p>{{ post.text|truncatechars:200 }}</p>
+    </div>
+    <hr>
   {% endfor %}
+</div>
 {% endblock %}

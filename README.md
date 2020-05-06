@@ -1,1 +1,1 @@
-# django-template-upgrade2
+# Django Blog Tutorial
